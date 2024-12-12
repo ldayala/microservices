@@ -1,0 +1,6 @@
+services:
+  catalogdb:
+    image: postgres
+# La base de datos y los volumenes deben estar al mismo con los servicos
+volumes:
+  postgres_catalog:
