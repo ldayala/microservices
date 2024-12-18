@@ -1,4 +1,4 @@
-using BuildingBlocks.behaviors;
+
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
@@ -21,6 +21,8 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+//añadimos el manejador de excepciones globales la inyeccion de dependencias
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,9 +33,10 @@ var app = builder.Build();
 
 
 app.MapCarter();
-
+#region Manejado exepcione
 // para usar el manejador de exception global
-app.UseExceptionHandler(exceptionHandlerApp =>
+/*lo hemos implementado mejorado en BuildingBlock/Exception/Hanlder
+ * app.UseExceptionHandler(exceptionHandlerApp =>
 {
     exceptionHandlerApp.Run(async context =>
     {
@@ -58,8 +61,11 @@ app.UseExceptionHandler(exceptionHandlerApp =>
 
         await context.Response.WriteAsJsonAsync(problemDetails);
     });
-});
+});*/
 
 
+#endregion
+//configuramos un pipeline para que funciones el sevicio de manejador de excepcioons
+app.UseExceptionHandler(options => { });
 app.Run();
 
