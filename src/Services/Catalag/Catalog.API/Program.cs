@@ -41,7 +41,7 @@ app.UseExceptionHandler(exceptionHandlerApp =>
         var exception= context.Features.Get<IExceptionHandlerFeature>() ?.Error;
         if (exception == null)
             return;
-
+        
         var problemDetails = new ProblemDetails
         {
             Title = exception.Message,

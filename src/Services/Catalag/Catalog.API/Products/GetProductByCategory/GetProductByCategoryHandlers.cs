@@ -10,9 +10,7 @@ namespace Catalog.API.Products.GetProductByCategory
         {
            logger.LogInformation("GetProductByCategoryHandler.handler called with {@Quey}",request);
            var product = await session.Query<Product>().Where(p=>p.Category.Contains(request.category)).ToListAsync(cancellationToken);
-            return product == null 
-                ? throw new ProductNotFoundException() 
-                : (IEnumerable<Product>)product;
+            return product;
         }
     }
 }
