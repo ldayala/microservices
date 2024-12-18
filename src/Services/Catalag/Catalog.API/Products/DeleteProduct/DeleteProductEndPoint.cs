@@ -9,6 +9,7 @@ namespace Catalog.API.Products.DeleteProduct
             app.MapDelete("/products/{id}", async (Guid id, ISender sender) =>
             {
                 var result = await sender.Send(new DeleteProductCommand(id));
+                Console.WriteLine("result:", result.ToString());
                 return Results.Ok(result);
             })
                 .WithName("DeleteProducts")
