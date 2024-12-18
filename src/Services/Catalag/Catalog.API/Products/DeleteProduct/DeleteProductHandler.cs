@@ -22,7 +22,7 @@ namespace Catalog.API.Products.DeleteProduct
                 logger.LogInformation("DeleteProductHandler.Handler called with {@Query}", request.Id);
 
                 _ = await session.LoadAsync<Product>(request.Id,cancellationToken)
-                    ?? throw new ProductNotFoundException(typeof(Product).Name,request.Id);
+                    ?? throw new ProductNotFoundException(request.Id);
 
                 session.Delete<Product>(request.Id);
 
