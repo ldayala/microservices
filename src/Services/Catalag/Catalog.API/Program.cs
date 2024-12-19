@@ -1,7 +1,7 @@
 
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
+
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +24,9 @@ builder.Services.AddMarten(opts =>
 
 //añadimos el manejador de excepciones globales la inyeccion de dependencias
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);//para que se hagan comprobaciones de salud de la base de datos del micorservicio
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,5 +71,12 @@ app.MapCarter();
 #endregion
 //configuramos un pipeline para que funciones el sevicio de manejador de excepcioons
 app.UseExceptionHandler(options => { });
+// la ruta de comporbacion de salud que vamos a utilizar
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+    });
+
 app.Run();
 

@@ -7,3 +7,4 @@ global using Marten;
 global using FluentValidation;
 global using BuildingBlocks.behaviors;
 global using BuildingBlocks.Exceptions.Handler;
+global using Marten.Pagination;
