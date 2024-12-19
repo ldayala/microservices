@@ -26,7 +26,7 @@ namespace BuildingBlocks.behaviors
                 logger.LogWarning("[Performance] The request {Request} took {TimeTake}",
                     typeof(TRequest).Name,timerTaken.Seconds);
 
-            logger.LogInformation("[END] Handle {Request} with {Response}", typeof(TRequest).Name,typeof (TResponse).Name);
+            logger.LogInformation("[END] Handle {Request} with {Response} took {TimeTime}", typeof(TRequest).Name,typeof (TResponse).Name,timerTaken);
             return response; //devolvemos el objeto responde a la siguiente operacion
         }
     }
