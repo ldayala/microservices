@@ -18,19 +18,12 @@ namespace Catalog.API.Products.CreateProduct
     //esta sera nuestra capa de logina de la aplicacion
     //IDocumentSession viene de la libreria Marten y es una interfaz aque implementa patrines UnitOfWork, Repository etc
     internal class CreateProductCommandHandler
-        (IDocumentSession session,ILogger<CreateProductCommandHandler> logger) 
+        (IDocumentSession session) 
         : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
       
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            /*
-            var result = await validator.ValidateAsync(command, cancellationToken);
-            var errors= result.Errors.Select(x => x.ErrorMessage).ToList();
-            if (errors.Any()) {
-                throw new ValidationException(errors.FirstOrDefault());
-            }*/
-            logger.LogInformation("CreateProductCommandHandler.Handler called with {@Query}", command.Name);
             //create product entity from command object
             var product = new Product { 
             Name = command.Name,

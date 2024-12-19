@@ -12,6 +12,7 @@ builder.Services.AddMediatR(conf =>
 {
     conf.RegisterServicesFromAssembly(assembly);
     conf.AddOpenBehavior(typeof(ValidationBehaviors<,>));
+    conf.AddOpenBehavior(typeof(LoggingBehaviors<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(assembly);
