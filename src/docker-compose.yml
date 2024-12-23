@@ -1,6 +1,8 @@
 services:
   catalogdb:
     image: postgres
+  basketdb:
+    image: postgres
 # La base de datos y los volumenes deben estar al mismo con los servicos
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -10,3 +12,4 @@ services:
 
 volumes:
   postgres_catalog:
+  postgres_basket:
