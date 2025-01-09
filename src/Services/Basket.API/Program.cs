@@ -1,5 +1,6 @@
 using BuildingBlocks.behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +22,25 @@ builder.Services.AddMarten(opts =>
     opts.Schema.For<ShoppingCart>().Identity(x => x.UserName);//para que el username sea el id cuando marten crea la tabla
     //opts.AutoCreateSchemaObjects = AutoCreate.All;
 }).UseLightweightSessions();
-
+/* ESTO NO FUNCIONARIA PORQUE TOMARIA LA SEGUNDA */
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+//builder.Services.AddScoped<IBasketRepository, CacheBasketRepository>();
+//con sructor library
+builder.Services.Decorate<IBasketRepository,CacheBasketRepository>();
+//para ello decoramos las clase gracias scrutor library
+/*esto sin scrutor libreri*
+builder.Services.AddScoped<IBasketRepository>(provider =>
+{
+    var basketRepostory = provider.GetRequiredService<IBasketRepository>();
+    return new CacheBasketRepository(basketRepostory, provider.GetRequiredService<IDistributedCache>());
+});
+*/
 
+//registramos redis
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
