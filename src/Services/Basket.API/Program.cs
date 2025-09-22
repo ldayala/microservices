@@ -1,5 +1,6 @@
 using BuildingBlocks.behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.Masstransit;
 using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,12 +37,18 @@ builder.Services.AddScoped<IBasketRepository>(provider =>
 });
 */
 
+//asyn communication service
+builder.Services.AddMesageBroker(builder.Configuration);
+
+//Cross-cutting services
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 //registramos redis
 builder.Services.AddStackExchangeRedisCache(opt =>
 {
     opt.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+
 
 var app = builder.Build();
 
