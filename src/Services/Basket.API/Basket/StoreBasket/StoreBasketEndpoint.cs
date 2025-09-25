@@ -13,7 +13,13 @@ namespace Basket.API.Basket.StoreBasket
             {
                 var result = await sender.Send(new StoreBasketCommand(request.cart));
                 return Results.Created($"/basket/{result.UserName}",result);
-            });
+            })
+            .WithName("CreateBasket")
+            .Produces<StoreBasketResponse>(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Create Product")
+            .WithDescription("Create Product");
+
 
         }
     }

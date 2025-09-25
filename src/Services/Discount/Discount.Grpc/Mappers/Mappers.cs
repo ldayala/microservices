@@ -17,7 +17,7 @@ namespace Discount.Grpc.Mappers
 
         public static Coupon CuponModelToCupon(this CouponModel coupon)
         {
-            return new Coupon
+                return new Coupon
             {
                 Id = coupon.Id,
                 ProductName = coupon.ProductName,
