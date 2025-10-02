@@ -1,3 +1,5 @@
+version: '3.4'
+
 services:
   catalogdb:
     image: postgres
@@ -5,6 +7,9 @@ services:
     image: postgres
   distributedcache:
     image: redis
+  orderDb:
+    image: mcr.microsoft.com/mssql/server
+    
 # La base de datos y los volumenes deben estar al mismo con los servicos
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -24,8 +29,15 @@ services:
       context: .
       dockerfile: Services/Basket.API/Dockerfile
 
+  ordering.api:
+    image: ${DOCKER_REGISTRY-}orderingapi
+    build:
+      context: .
+      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
+
 
 
